@@ -10,6 +10,14 @@ import {
   ArrowRight,
 } from 'lucide-react';
 
+// استيراد الصور
+import coverSparkle from '/src/assets/Images/Cover_Sparklepng.png';
+import coverMindGrid from '/src/assets/Images/Cover_Mind_Grid.png';
+import welcomePage from '/src/assets/Images/WelcomePage.png';
+import coverBankPro from '/src/assets/Images/Cover_BankPro.png';
+import presentationTodo from '/src/assets/Images/Presentation_TO-DO_List.png';
+import coverSmartMarket from '/src/assets/Images/Cover_SmartMarket.png';
+import comingSoon from '/src/assets/Images/Coming_Soon_Project.png';
 
 const GithubIcon = ({ size = 24 }: { size?: number }) => (
   <svg width={size} height={size} viewBox="0 0 24 24" fill="currentColor">
@@ -22,8 +30,6 @@ const YoutubeIcon = ({ size = 24 }: { size?: number }) => (
     <path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z" />
   </svg>
 );
-
-
 
 interface Project {
   id: string;
@@ -41,7 +47,7 @@ interface Project {
 }
 
 const projects: Project[] = [
-   {
+  {
     id: 'coming-soon',
     title: 'Next Big Thing',
     shortDesc: 'A massive new project is currently in development.',
@@ -50,7 +56,7 @@ const projects: Project[] = [
     langFilter: [],
     typeFilter: [],
     github: '',
-    image: '/src/assets/Images/Coming_Soon_Project.png',
+    image: comingSoon,
     gradient: 'from-white/5 to-white/10',
     isComingSoon: true,
   },
@@ -69,7 +75,7 @@ const projects: Project[] = [
     typeFilter: ['dotnet-framework'],
     github: 'https://github.com/7mee3d/Sparkle',
     youtube: 'https://www.youtube.com/watch?v=LC2jUTV6pjk&t=211s',
-    image: '/src/assets/Images/Cover_Sparklepng.png',
+    image: coverSparkle,
     gradient: 'from-cyan-500/20 to-blue-500/20',
   },
   {
@@ -86,7 +92,7 @@ const projects: Project[] = [
     typeFilter: ['dotnet-framework'],
     github: 'https://github.com/7mee3d/MindGrid',
     youtube: 'https://www.youtube.com/watch?v=WmiSqqFOceE&t=3s',
-    image: '/src/assets/Images/Cover_Mind_Grid.png',
+    image: coverMindGrid,
     gradient: 'from-purple-500/20 to-pink-500/20',
   },
   {
@@ -103,7 +109,7 @@ const projects: Project[] = [
     typeFilter: ['dotnet-framework'],
     github: 'https://github.com/7mee3d/Pizzlicious',
     youtube: 'https://www.youtube.com/watch?v=eJkE0VAz6jA',
-    image: '/src/assets/Images/WelcomePage.png',
+    image: welcomePage,
     gradient: 'from-orange-500/20 to-red-500/20',
   },
   {
@@ -119,7 +125,7 @@ const projects: Project[] = [
     langFilter: ['cpp'],
     typeFilter: ['console'],
     github: 'https://github.com/7mee3d/BankPro',
-    image: '/src/assets/Images/Cover_BankPro.png',
+    image: coverBankPro,
     gradient: 'from-yellow-500/20 to-amber-500/20',
   },
   {
@@ -135,7 +141,7 @@ const projects: Project[] = [
     langFilter: ['csharp'],
     typeFilter: ['dotnet-framework'],
     github: 'https://github.com/7mee3d/Momentum',
-    image: '/src/assets/Images/Presentation_TO-DO_List.png',
+    image: presentationTodo,
     gradient: 'from-emerald-500/20 to-teal-500/20',
   },
   {
@@ -151,12 +157,10 @@ const projects: Project[] = [
     langFilter: ['cpp'],
     typeFilter: ['console'],
     github: 'https://github.com/7mee3d/SmartMarket',
-    image: '/src/assets/Images/Cover_SmartMarket.png',
+    image: coverSmartMarket,
     gradient: 'from-blue-500/20 to-cyan-500/20',
   },
- 
 ];
-
 
 const Navbar = () => {
   const [scrolled, setScrolled] = useState(false);
@@ -296,7 +300,7 @@ const BentoAbout = () => {
             <div className="w-16 h-1 bg-violet-600 rounded-full" />
           </div>
           <p className="max-w-md text-gray-500 text-sm">
-            I’ve been fascinated by technology since childhood. Building innovative tools gives me immense joy.
+            I've been fascinated by technology since childhood. Building innovative tools gives me immense joy.
           </p>
         </div>
 
@@ -404,7 +408,7 @@ const ProjectModal = ({ project, onClose }: { project: Project; onClose: () => v
               allowFullScreen
             />
           ) : (
-            <img src={project.image} className="w-full h-full object-cover" />
+            <img src={project.image} className="w-full h-full object-cover" alt={project.title} />
           )}
         </div>
 
