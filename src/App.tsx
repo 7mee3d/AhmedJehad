@@ -57,10 +57,26 @@ interface Project {
   image: string;
   gradient: string;
   isComingSoon?: boolean;
+  showComingSoonBadge?: boolean;
 }
 
 const projects: Project[] = [
-  // EETMS - في بداية القائمة
+  // Next Big Thing - في البداية (أول مشروع)
+  {
+    id: 'coming-soon',
+    title: 'Next Big Thing',
+    shortDesc: 'A massive new project is currently in development. Stay tuned for more details!',
+    features: [],
+    techTags: ['Mystery'],
+    langFilter: [],
+    typeFilter: [],
+    github: '',
+    image: comingSoon,
+    gradient: 'from-white/5 to-white/10',
+    isComingSoon: true,
+    showComingSoonBadge: false,
+  },
+  // EETMS - ثاني مشروع مع أيقونة Coming Soon
   {
     id: 'eetms',
     title: 'EETMS',
@@ -80,6 +96,7 @@ const projects: Project[] = [
     image: coverEETMS,
     gradient: 'from-rose-500/20 to-pink-500/20',
     isComingSoon: true,
+    showComingSoonBadge: true,
   },
   // Sparkle
   {
@@ -263,20 +280,6 @@ const projects: Project[] = [
     image: coverLibraryInputValidator,
     gradient: 'from-orange-500/20 to-amber-500/20',
   },
-  // Next Big Thing (في آخر القائمة)
-  {
-    id: 'coming-soon',
-    title: 'Next Big Thing',
-    shortDesc: 'A massive new project is currently in development. Stay tuned for more details!',
-    features: [],
-    techTags: ['Mystery'],
-    langFilter: [],
-    typeFilter: [],
-    github: '',
-    image: comingSoon,
-    gradient: 'from-white/5 to-white/10',
-    isComingSoon: true,
-  },
 ];
 
 const Navbar = () => {
@@ -456,7 +459,7 @@ const ProjectCard = ({ project, onOpen }: { project: Project; onOpen: (p: Projec
         project.isComingSoon ? 'opacity-60' : ''
       }`}
     >
-      <div className="aspect-[16/10] overflow-hidden">
+      <div className="aspect-[16/10] overflow-hidden relative">
         {project.image ? (
           <img
             src={project.image}
@@ -466,6 +469,15 @@ const ProjectCard = ({ project, onOpen }: { project: Project; onOpen: (p: Projec
         ) : (
           <div className={`w-full h-full bg-gradient-to-br ${project.gradient} flex items-center justify-center`}>
             <Sparkles size={40} className="text-white/20" />
+          </div>
+        )}
+        {/* أيقونة Coming Soon الشفافة - تظهر فقط لـ EETMS */}
+        {project.showComingSoonBadge && (
+          <div className="absolute top-4 right-4 z-10 bg-black/60 backdrop-blur-sm border border-white/20 rounded-full px-4 py-1.5">
+            <span className="text-[10px] font-bold uppercase tracking-wider text-white/80 flex items-center gap-1.5">
+              <Sparkles size={12} className="text-violet-400" />
+              Coming Soon
+            </span>
           </div>
         )}
       </div>
