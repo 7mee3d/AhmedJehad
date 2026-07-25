@@ -41,6 +41,19 @@ interface Project {
 }
 
 const projects: Project[] = [
+   {
+    id: 'coming-soon',
+    title: 'Next Big Thing',
+    shortDesc: 'A massive new project is currently in development.',
+    features: [],
+    techTags: ['Mystery'],
+    langFilter: [],
+    typeFilter: [],
+    github: '',
+    image: '../src/assets/Images/Coming_Soon_Project.png',
+    gradient: 'from-white/5 to-white/10',
+    isComingSoon: true,
+  },
   {
     id: 'sparkle',
     title: 'Sparkle',
@@ -56,7 +69,7 @@ const projects: Project[] = [
     typeFilter: ['dotnet-framework'],
     github: 'https://github.com/7mee3d/Sparkle',
     youtube: 'https://www.youtube.com/watch?v=LC2jUTV6pjk&t=205s',
-    image: 'https://r2.erweima.ai/i/U7m-X-kRROqY-2C5E7U5A.png',
+    image: '../src/assets/Images/Cover_Sparklepng.png',
     gradient: 'from-cyan-500/20 to-blue-500/20',
   },
   {
@@ -73,7 +86,7 @@ const projects: Project[] = [
     typeFilter: ['dotnet-framework'],
     github: 'https://github.com/7mee3d/MindGrid',
     youtube: 'https://www.youtube.com/watch?v=WmiSqqFOceE',
-    image: 'https://r2.erweima.ai/i/O9v-X-kRROqY-2C5E7U5A.png',
+    image: '../src/assets/Images/Cover_Mind_Grid.png',
     gradient: 'from-purple-500/20 to-pink-500/20',
   },
   {
@@ -90,7 +103,7 @@ const projects: Project[] = [
     typeFilter: ['dotnet-framework'],
     github: 'https://github.com/7mee3d/Pizzlicious',
     youtube: 'https://www.youtube.com/watch?v=eJkE0VAz6jA',
-    image: 'https://r2.erweima.ai/i/K9v-X-kRROqY-2C5E7U5A.png',
+    image: '../src/assets/Images/WelcomePage.png',
     gradient: 'from-orange-500/20 to-red-500/20',
   },
   {
@@ -106,7 +119,7 @@ const projects: Project[] = [
     langFilter: ['cpp'],
     typeFilter: ['console'],
     github: 'https://github.com/7mee3d/BankPro',
-    image: 'https://r2.erweima.ai/i/L9v-X-kRROqY-2C5E7U5A.png',
+    image: '../src/assets/Images/Cover_BankPro.png',
     gradient: 'from-yellow-500/20 to-amber-500/20',
   },
   {
@@ -122,7 +135,7 @@ const projects: Project[] = [
     langFilter: ['csharp'],
     typeFilter: ['dotnet-framework'],
     github: 'https://github.com/7mee3d/Momentum',
-    image: 'https://r2.erweima.ai/i/J8v-X-kRROqY-2C5E7U5A.png',
+    image: '../src/assets/Images/Presentation_TO-DO_List.png',
     gradient: 'from-emerald-500/20 to-teal-500/20',
   },
   {
@@ -138,27 +151,12 @@ const projects: Project[] = [
     langFilter: ['cpp'],
     typeFilter: ['console'],
     github: 'https://github.com/7mee3d/SmartMarket',
-    image: 'https://r2.erweima.ai/i/z7G8z4KzS9y6-2C5E7U5A.png',
+    image: '../src/assets/Images/Cover_SmartMarket.png',
     gradient: 'from-blue-500/20 to-cyan-500/20',
   },
-  {
-    id: 'coming-soon',
-    title: 'Next Big Thing',
-    shortDesc: 'A massive new project is currently in development.',
-    features: [],
-    techTags: ['Mystery'],
-    langFilter: [],
-    typeFilter: [],
-    github: '',
-    image: '',
-    gradient: 'from-white/5 to-white/10',
-    isComingSoon: true,
-  },
+ 
 ];
 
-/* ═══════════════════════════════════════════════════════════════════════════
-   Components
-   ═══════════════════════════════════════════════════════════════════════════ */
 
 const Navbar = () => {
   const [scrolled, setScrolled] = useState(false);
@@ -179,7 +177,7 @@ const Navbar = () => {
       <div className="max-w-7xl mx-auto flex items-center justify-between">
         <a href="#home" className="text-2xl font-black tracking-tighter group">
           <span className="bg-gradient-to-r from-violet-400 to-cyan-400 bg-clip-text text-transparent group-hover:from-white group-hover:to-white transition-all">
-            AHMED JEHAD
+            AJ
           </span>
         </a>
         <div className="hidden md:flex items-center gap-8 text-sm font-medium">
@@ -271,7 +269,7 @@ const BentoAbout = () => {
     },
     {
       title: 'Education',
-      content: 'Junior @ Faculty of Software Engineering & AI',
+      content: 'Junior @UP Faculty of Software Engineering & AI',
       icon: <GraduationCap className="text-cyan-400" />,
       size: 'col-span-2 md:col-span-2',
     },
