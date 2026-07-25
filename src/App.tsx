@@ -24,6 +24,7 @@ import coverMiniCalculator from '/src/assets/Images/Cover_MiniCalculator.png';
 import libraryCoverDate from '/src/assets/Images/Library_Cover_Date.png';
 import coverLibraryString from '/src/assets/Images/Cover_Library_String.png';
 import coverLibraryInputValidator from '/src/assets/Images/Cover_Library_Input_Validator.png';
+import coverEETMS from '/src/assets/Images/Cover_EETMS.png';
 
 const GithubIcon = ({ size = 24 }: { size?: number }) => (
   <svg width={size} height={size} viewBox="0 0 24 24" fill="currentColor">
@@ -56,13 +57,37 @@ interface Project {
   image: string;
   gradient: string;
   isComingSoon?: boolean;
+  comingSoonPriority?: number; // 1 = قريباً جداً, 2 = قريباً
 }
 
 const projects: Project[] = [
+  // EETMS - Coming Soon (الأولوية 1 - سيتم إطلاقه قريباً)
+  {
+    id: 'eetms',
+    title: 'EETMS',
+    shortDesc: 'Enterprise Event & Ticketing Management System – Manage events, tickets, customers, payments & reports effortlessly in a clean and modern desktop app.',
+    features: [
+      'Event Management: Create, edit, and manage events',
+      'Ticketing System: Generate and validate tickets',
+      'Customer Management: Track customer data and history',
+      'Payment Processing: Secure payment handling',
+      'Reports & Analytics: Comprehensive reporting dashboard',
+      'Modern UI: Clean and intuitive desktop interface',
+    ],
+    techTags: ['C#', '.NET', 'WinForms', 'SQL'],
+    langFilter: ['csharp'],
+    typeFilter: ['dotnet-framework'],
+    github: '',
+    image: coverEETMS,
+    gradient: 'from-rose-500/20 to-pink-500/20',
+    isComingSoon: true,
+    comingSoonPriority: 1,
+  },
+  // Coming Soon العام (الأولوية 2)
   {
     id: 'coming-soon',
     title: 'Next Big Thing',
-    shortDesc: 'A massive new project is currently in development.',
+    shortDesc: 'A massive new project is currently in development. Stay tuned for more details!',
     features: [],
     techTags: ['Mystery'],
     langFilter: [],
@@ -71,7 +96,9 @@ const projects: Project[] = [
     image: comingSoon,
     gradient: 'from-white/5 to-white/10',
     isComingSoon: true,
+    comingSoonPriority: 2,
   },
+  // المشاريع المنشورة
   {
     id: 'sparkle',
     title: 'Sparkle',
@@ -172,7 +199,7 @@ const projects: Project[] = [
     image: coverSmartMarket,
     gradient: 'from-blue-500/20 to-cyan-500/20',
   },
-  // المشاريع الجديدة
+  // المشاريع الجديدة المنشورة
   {
     id: 'minicalculator',
     title: 'MiniCalculator',
@@ -416,15 +443,30 @@ const BentoAbout = () => {
 };
 
 const ProjectCard = ({ project, onOpen }: { project: Project; onOpen: (p: Project) => void }) => {
+  // تحديد النص الذي يظهر على البطاقة للمشاريع القادمة
+  const getComingSoonLabel = () => {
+    if (project.comingSoonPriority === 1) {
+      return '🔜 Coming Soon';
+    }
+    return '⌛ Coming Soon';
+  };
+
   return (
     <motion.div
       layout
       onClick={() => !project.isComingSoon && onOpen(project)}
       className={`group relative glass-dark rounded-[2.5rem] overflow-hidden cursor-pointer border-white/5 hover:border-violet-500/50 transition-all duration-500 ${
-        project.isComingSoon ? 'opacity-50 cursor-default' : ''
+        project.isComingSoon ? 'opacity-60 cursor-default' : ''
       }`}
     >
-      <div className="aspect-[16/10] overflow-hidden">
+      <div className="aspect-[16/10] overflow-hidden relative">
+        {project.isComingSoon && (
+          <div className="absolute inset-0 bg-black/40 z-10 flex items-center justify-center">
+            <span className="px-6 py-3 bg-violet-600/80 backdrop-blur-sm text-white font-bold rounded-full text-sm border border-violet-400/30">
+              {getComingSoonLabel()}
+            </span>
+          </div>
+        )}
         {project.image ? (
           <img
             src={project.image}
@@ -524,17 +566,19 @@ const ProjectModal = ({ project, onClose }: { project: Project; onClose: () => v
           <h3 className="text-4xl font-black mb-6">{project.title}</h3>
           <p className="text-gray-400 mb-8 leading-relaxed">{project.shortDesc}</p>
           
-          <div className="mb-8">
-            <h4 className="text-xs font-black text-gray-500 uppercase tracking-widest mb-4">Features</h4>
-            <div className="space-y-3">
-              {project.features.map((f, i) => (
-                <div key={i} className="flex gap-3 text-sm text-gray-300">
-                  <div className="mt-1.5 w-1.5 h-1.5 rounded-full bg-violet-500 shrink-0" />
-                  {f}
-                </div>
-              ))}
+          {project.features.length > 0 && (
+            <div className="mb-8">
+              <h4 className="text-xs font-black text-gray-500 uppercase tracking-widest mb-4">Features</h4>
+              <div className="space-y-3">
+                {project.features.map((f, i) => (
+                  <div key={i} className="flex gap-3 text-sm text-gray-300">
+                    <div className="mt-1.5 w-1.5 h-1.5 rounded-full bg-violet-500 shrink-0" />
+                    {f}
+                  </div>
+                ))}
+              </div>
             </div>
-          </div>
+          )}
 
           <div className="flex flex-wrap gap-3 mb-12">
             {project.techTags.map((t) => (
@@ -565,6 +609,11 @@ const ProjectModal = ({ project, onClose }: { project: Project; onClose: () => v
                 <YoutubeIcon size={18} /> DEMO
               </a>
             )}
+            {project.isComingSoon && (
+              <div className="flex-1 py-4 bg-violet-600/20 border border-violet-500/30 text-violet-400 text-center font-black rounded-2xl cursor-default flex items-center justify-center gap-2">
+                <Sparkles size={18} /> COMING SOON
+              </div>
+            )}
           </div>
         </div>
       </motion.div>
@@ -577,6 +626,16 @@ export default function App() {
   const [filter, setFilter] = useState('all');
 
   const filtered = projects.filter(p => filter === 'all' || p.langFilter.includes(filter));
+
+  // ترتيب المشاريع: المشاريع المنشورة أولاً، ثم المشاريع القادمة
+  const sortedProjects = [...filtered].sort((a, b) => {
+    if (a.isComingSoon && !b.isComingSoon) return 1;
+    if (!a.isComingSoon && b.isComingSoon) return -1;
+    if (a.isComingSoon && b.isComingSoon) {
+      return (a.comingSoonPriority || 2) - (b.comingSoonPriority || 2);
+    }
+    return 0;
+  });
 
   return (
     <div className="bg-[#030308] text-white">
@@ -612,7 +671,7 @@ export default function App() {
             className="grid md:grid-cols-2 lg:grid-cols-3 gap-8"
           >
             <AnimatePresence mode="popLayout">
-              {filtered.map((p) => (
+              {sortedProjects.map((p) => (
                 <ProjectCard key={p.id} project={p} onOpen={setSelected} />
               ))}
             </AnimatePresence>
