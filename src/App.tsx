@@ -57,11 +57,10 @@ interface Project {
   image: string;
   gradient: string;
   isComingSoon?: boolean;
-  comingSoonPriority?: number; // 1 = قريباً جداً, 2 = قريباً
 }
 
 const projects: Project[] = [
-  // EETMS - Coming Soon (الأولوية 1 - سيتم إطلاقه قريباً)
+  // EETMS - في بداية القائمة
   {
     id: 'eetms',
     title: 'EETMS',
@@ -81,24 +80,8 @@ const projects: Project[] = [
     image: coverEETMS,
     gradient: 'from-rose-500/20 to-pink-500/20',
     isComingSoon: true,
-    comingSoonPriority: 1,
   },
-  // Coming Soon العام (الأولوية 2)
-  {
-    id: 'coming-soon',
-    title: 'Next Big Thing',
-    shortDesc: 'A massive new project is currently in development. Stay tuned for more details!',
-    features: [],
-    techTags: ['Mystery'],
-    langFilter: [],
-    typeFilter: [],
-    github: '',
-    image: comingSoon,
-    gradient: 'from-white/5 to-white/10',
-    isComingSoon: true,
-    comingSoonPriority: 2,
-  },
-  // المشاريع المنشورة
+  // Sparkle
   {
     id: 'sparkle',
     title: 'Sparkle',
@@ -117,6 +100,7 @@ const projects: Project[] = [
     image: coverSparkle,
     gradient: 'from-cyan-500/20 to-blue-500/20',
   },
+  // Mind Grid
   {
     id: 'mindgrid',
     title: 'Mind Grid',
@@ -134,6 +118,7 @@ const projects: Project[] = [
     image: coverMindGrid,
     gradient: 'from-purple-500/20 to-pink-500/20',
   },
+  // Pizzlicious
   {
     id: 'pizzlicious',
     title: 'Pizzlicious',
@@ -151,6 +136,7 @@ const projects: Project[] = [
     image: welcomePage,
     gradient: 'from-orange-500/20 to-red-500/20',
   },
+  // BankPro
   {
     id: 'bankpro',
     title: 'BankPro',
@@ -167,6 +153,7 @@ const projects: Project[] = [
     image: coverBankPro,
     gradient: 'from-yellow-500/20 to-amber-500/20',
   },
+  // Momentum
   {
     id: 'momentum',
     title: 'Momentum',
@@ -183,6 +170,7 @@ const projects: Project[] = [
     image: presentationTodo,
     gradient: 'from-emerald-500/20 to-teal-500/20',
   },
+  // SmartMarket
   {
     id: 'smartmarket',
     title: 'SmartMarket',
@@ -199,7 +187,7 @@ const projects: Project[] = [
     image: coverSmartMarket,
     gradient: 'from-blue-500/20 to-cyan-500/20',
   },
-  // المشاريع الجديدة المنشورة
+  // MiniCalculator
   {
     id: 'minicalculator',
     title: 'MiniCalculator',
@@ -218,6 +206,7 @@ const projects: Project[] = [
     image: coverMiniCalculator,
     gradient: 'from-green-500/20 to-emerald-500/20',
   },
+  // DateToolkit
   {
     id: 'datetoolkit',
     title: 'DateToolkit',
@@ -236,6 +225,7 @@ const projects: Project[] = [
     image: libraryCoverDate,
     gradient: 'from-blue-500/20 to-indigo-500/20',
   },
+  // StringUtils
   {
     id: 'stringutils',
     title: 'StringUtils',
@@ -254,6 +244,7 @@ const projects: Project[] = [
     image: coverLibraryString,
     gradient: 'from-purple-500/20 to-fuchsia-500/20',
   },
+  // InputValidator
   {
     id: 'inputvalidator',
     title: 'InputValidator',
@@ -271,6 +262,20 @@ const projects: Project[] = [
     github: 'https://github.com/7mee3d/InputValidator',
     image: coverLibraryInputValidator,
     gradient: 'from-orange-500/20 to-amber-500/20',
+  },
+  // Next Big Thing (في آخر القائمة)
+  {
+    id: 'coming-soon',
+    title: 'Next Big Thing',
+    shortDesc: 'A massive new project is currently in development. Stay tuned for more details!',
+    features: [],
+    techTags: ['Mystery'],
+    langFilter: [],
+    typeFilter: [],
+    github: '',
+    image: comingSoon,
+    gradient: 'from-white/5 to-white/10',
+    isComingSoon: true,
   },
 ];
 
@@ -443,30 +448,15 @@ const BentoAbout = () => {
 };
 
 const ProjectCard = ({ project, onOpen }: { project: Project; onOpen: (p: Project) => void }) => {
-  // تحديد النص الذي يظهر على البطاقة للمشاريع القادمة
-  const getComingSoonLabel = () => {
-    if (project.comingSoonPriority === 1) {
-      return '🔜 Coming Soon';
-    }
-    return '⌛ Coming Soon';
-  };
-
   return (
     <motion.div
       layout
-      onClick={() => !project.isComingSoon && onOpen(project)}
+      onClick={() => onOpen(project)}
       className={`group relative glass-dark rounded-[2.5rem] overflow-hidden cursor-pointer border-white/5 hover:border-violet-500/50 transition-all duration-500 ${
-        project.isComingSoon ? 'opacity-60 cursor-default' : ''
+        project.isComingSoon ? 'opacity-60' : ''
       }`}
     >
-      <div className="aspect-[16/10] overflow-hidden relative">
-        {project.isComingSoon && (
-          <div className="absolute inset-0 bg-black/40 z-10 flex items-center justify-center">
-            <span className="px-6 py-3 bg-violet-600/80 backdrop-blur-sm text-white font-bold rounded-full text-sm border border-violet-400/30">
-              {getComingSoonLabel()}
-            </span>
-          </div>
-        )}
+      <div className="aspect-[16/10] overflow-hidden">
         {project.image ? (
           <img
             src={project.image}
@@ -483,7 +473,7 @@ const ProjectCard = ({ project, onOpen }: { project: Project; onOpen: (p: Projec
       <div className="p-8">
         <div className="flex items-center justify-between mb-4">
           <h3 className="text-2xl font-bold">{project.title}</h3>
-          {!project.isComingSoon && <ArrowRight size={20} className="text-gray-600 group-hover:translate-x-1 group-hover:text-violet-400 transition-all" />}
+          <ArrowRight size={20} className="text-gray-600 group-hover:translate-x-1 group-hover:text-violet-400 transition-all" />
         </div>
         <p className="text-gray-400 text-sm mb-6 line-clamp-2 leading-relaxed">
           {project.shortDesc}
@@ -589,7 +579,7 @@ const ProjectModal = ({ project, onClose }: { project: Project; onClose: () => v
           </div>
 
           <div className="flex gap-4">
-            {project.github && (
+            {project.github ? (
               <a
                 href={project.github}
                 target="_blank"
@@ -598,6 +588,10 @@ const ProjectModal = ({ project, onClose }: { project: Project; onClose: () => v
               >
                 <GithubIcon size={18} /> GITHUB
               </a>
+            ) : (
+              <div className="flex-1 py-4 bg-violet-600/20 border border-violet-500/30 text-violet-400 text-center font-black rounded-2xl cursor-default flex items-center justify-center gap-2">
+                <Sparkles size={18} /> COMING SOON
+              </div>
             )}
             {project.youtube && videoId && (
               <a
@@ -608,11 +602,6 @@ const ProjectModal = ({ project, onClose }: { project: Project; onClose: () => v
               >
                 <YoutubeIcon size={18} /> DEMO
               </a>
-            )}
-            {project.isComingSoon && (
-              <div className="flex-1 py-4 bg-violet-600/20 border border-violet-500/30 text-violet-400 text-center font-black rounded-2xl cursor-default flex items-center justify-center gap-2">
-                <Sparkles size={18} /> COMING SOON
-              </div>
             )}
           </div>
         </div>
@@ -626,16 +615,6 @@ export default function App() {
   const [filter, setFilter] = useState('all');
 
   const filtered = projects.filter(p => filter === 'all' || p.langFilter.includes(filter));
-
-  // ترتيب المشاريع: المشاريع المنشورة أولاً، ثم المشاريع القادمة
-  const sortedProjects = [...filtered].sort((a, b) => {
-    if (a.isComingSoon && !b.isComingSoon) return 1;
-    if (!a.isComingSoon && b.isComingSoon) return -1;
-    if (a.isComingSoon && b.isComingSoon) {
-      return (a.comingSoonPriority || 2) - (b.comingSoonPriority || 2);
-    }
-    return 0;
-  });
 
   return (
     <div className="bg-[#030308] text-white">
@@ -671,7 +650,7 @@ export default function App() {
             className="grid md:grid-cols-2 lg:grid-cols-3 gap-8"
           >
             <AnimatePresence mode="popLayout">
-              {sortedProjects.map((p) => (
+              {filtered.map((p) => (
                 <ProjectCard key={p.id} project={p} onOpen={setSelected} />
               ))}
             </AnimatePresence>
