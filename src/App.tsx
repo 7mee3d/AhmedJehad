@@ -25,6 +25,13 @@ const GithubIcon = ({ size = 24 }: { size?: number }) => (
   </svg>
 );
 
+// ايقونة LinkedIn
+const LinkedInIcon = ({ size = 24 }: { size?: number }) => (
+  <svg width={size} height={size} viewBox="0 0 24 24" fill="currentColor">
+    <path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z" />
+  </svg>
+);
+
 const YoutubeIcon = ({ size = 24 }: { size?: number }) => (
   <svg width={size} height={size} viewBox="0 0 24 24" fill="currentColor">
     <path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z" />
@@ -74,7 +81,7 @@ const projects: Project[] = [
     langFilter: ['csharp'],
     typeFilter: ['dotnet-framework'],
     github: 'https://github.com/7mee3d/Sparkle',
-    youtube: 'https://www.youtube.com/watch?v=LC2jUTV6pjk&t=211s',
+    youtube: 'https://www.youtube.com/watch?v=LC2jUTV6pjk',
     image: coverSparkle,
     gradient: 'from-cyan-500/20 to-blue-500/20',
   },
@@ -91,7 +98,7 @@ const projects: Project[] = [
     langFilter: ['csharp'],
     typeFilter: ['dotnet-framework'],
     github: 'https://github.com/7mee3d/MindGrid',
-    youtube: 'https://www.youtube.com/watch?v=WmiSqqFOceE&t=3s',
+    youtube: 'https://www.youtube.com/watch?v=WmiSqqFOceE',
     image: coverMindGrid,
     gradient: 'from-purple-500/20 to-pink-500/20',
   },
@@ -197,6 +204,7 @@ const Navbar = () => {
           <a
             href="https://github.com/7mee3d"
             target="_blank"
+            rel="noopener noreferrer"
             className="p-2 bg-white/5 rounded-full hover:bg-white/10 transition-colors"
           >
             <GithubIcon size={18} />
@@ -244,6 +252,7 @@ const Hero = () => {
             <a
               href="https://github.com/7mee3d"
               target="_blank"
+              rel="noopener noreferrer"
               className="px-8 py-4 bg-white/5 border border-white/10 text-white font-bold rounded-full hover:bg-white/10 transition-all"
             >
               GitHub Profile
@@ -374,7 +383,25 @@ const ProjectCard = ({ project, onOpen }: { project: Project; onOpen: (p: Projec
   );
 };
 
+// دالة مساعدة لاستخراج ID الفيديو من رابط يوتيوب
+const getYoutubeVideoId = (url: string) => {
+  const patterns = [
+    /(?:youtube\.com\/watch\?v=)([\w-]+)/,
+    /(?:youtu\.be\/)([\w-]+)/,
+    /(?:youtube\.com\/embed\/)([\w-]+)/
+  ];
+  
+  for (const pattern of patterns) {
+    const match = url.match(pattern);
+    if (match) return match[1];
+  }
+  return null;
+};
+
 const ProjectModal = ({ project, onClose }: { project: Project; onClose: () => void }) => {
+  const videoId = project.youtube ? getYoutubeVideoId(project.youtube) : null;
+  const embedUrl = videoId ? `https://www.youtube.com/embed/${videoId}` : '';
+
   return (
     <motion.div
       initial={{ opacity: 0 }}
@@ -399,16 +426,20 @@ const ProjectModal = ({ project, onClose }: { project: Project; onClose: () => v
         </button>
 
         <div className="w-full md:w-1/2 h-[300px] md:h-auto bg-black flex items-center justify-center">
-          {project.youtube ? (
+          {project.youtube && videoId ? (
             <iframe
               className="w-full h-full"
-              src={`https://www.youtube.com/embed/${project.youtube.match(/(?:v=|\/)([\w-]+)/)?.[1]}`}
-              title="YouTube video player"
+              src={embedUrl}
+              title={`${project.title} - YouTube Video`}
               allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
               allowFullScreen
             />
-          ) : (
+          ) : project.image ? (
             <img src={project.image} className="w-full h-full object-cover" alt={project.title} />
+          ) : (
+            <div className="w-full h-full flex items-center justify-center text-gray-500">
+              No preview available
+            </div>
           )}
         </div>
 
@@ -437,17 +468,21 @@ const ProjectModal = ({ project, onClose }: { project: Project; onClose: () => v
           </div>
 
           <div className="flex gap-4">
-            <a
-              href={project.github}
-              target="_blank"
-              className="flex-1 py-4 bg-white text-black text-center font-black rounded-2xl hover:bg-violet-500 hover:text-white transition-all flex items-center justify-center gap-2"
-            >
-              <GithubIcon size={18} /> GITHUB
-            </a>
-            {project.youtube && (
+            {project.github && (
+              <a
+                href={project.github}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="flex-1 py-4 bg-white text-black text-center font-black rounded-2xl hover:bg-violet-500 hover:text-white transition-all flex items-center justify-center gap-2"
+              >
+                <GithubIcon size={18} /> GITHUB
+              </a>
+            )}
+            {project.youtube && videoId && (
               <a
                 href={project.youtube}
                 target="_blank"
+                rel="noopener noreferrer"
                 className="flex-1 py-4 bg-red-600/10 border border-red-500/20 text-red-500 text-center font-black rounded-2xl hover:bg-red-600 hover:text-white transition-all flex items-center justify-center gap-2"
               >
                 <YoutubeIcon size={18} /> DEMO
@@ -489,7 +524,7 @@ export default function App() {
                     filter === f ? 'bg-white text-black' : 'text-gray-500 hover:text-white'
                   }`}
                 >
-                  {f}
+                  {f === 'all' ? 'All' : f === 'csharp' ? 'C#' : 'C++'}
                 </button>
               ))}
             </div>
@@ -510,9 +545,28 @@ export default function App() {
 
       <footer className="py-20 px-6 border-t border-white/5">
         <div className="max-w-7xl mx-auto flex flex-col md:flex-row items-center justify-between gap-8">
-          <p className="text-gray-500 text-sm font-medium">© {new Date().getFullYear()} Ahmed Jehad. Engineered with Passion.</p>
-          <div className="flex gap-8">
-            <a href="https://github.com/7mee3d" className="text-gray-500 hover:text-white transition-colors"><GithubIcon size={20} /></a>
+          <p className="text-gray-500 text-sm font-medium">
+            © {new Date().getFullYear()} Ahmed Jehad. Engineered with Passion.
+          </p>
+          <div className="flex gap-6">
+            <a
+              href="https://github.com/7mee3d"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="text-gray-500 hover:text-white transition-colors"
+              aria-label="GitHub"
+            >
+              <GithubIcon size={22} />
+            </a>
+            <a
+              href="https://www.linkedin.com/in/ahmed-jehad/"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="text-gray-500 hover:text-[#0A66C2] transition-colors"
+              aria-label="LinkedIn"
+            >
+              <LinkedInIcon size={22} />
+            </a>
           </div>
         </div>
       </footer>
